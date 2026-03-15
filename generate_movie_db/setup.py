@@ -7,5 +7,5 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     python_requires=">=3.8",
-    install_requires=["pytest"],
+    install_requires=["os", "sqlite3", "gzip", "urllib"],
 )
