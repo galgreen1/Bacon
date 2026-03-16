@@ -1,6 +1,7 @@
 from sqlite3 import connect
 from gzip import decompress
 from urllib.request import urlopen
+<<<<<<< HEAD
 from generate_movie_db.constants import (
     SAVE_ACTORS_FILE,
     ACTOR_TABLE,
@@ -11,6 +12,9 @@ from generate_movie_db.constants import (
     MOVIE_ID,
     MOVIES_TABLE,
 )
+=======
+from generate_movie_db.constants import SAVE_ACTORS_FILE, ACTOR_TABLE, ACTOR_ID, ACTOR_MOVIES, ACTOR_NAME
+>>>>>>> 4634216 (wip)
 
 
 ACTORS_URL = "https://datasets.imdbws.com/name.basics.tsv.gz"

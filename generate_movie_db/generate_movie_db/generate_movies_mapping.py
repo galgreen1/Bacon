@@ -33,7 +33,11 @@ def create_movies_to_identifier_mapping(db_name: str):
     #  For forgien keys
     con.execute('PRAGMA foreign_keys = ON;')
     cur = con.cursor()
+<<<<<<< HEAD
     cur.execute(f"CREATE TABLE {MOVIES_TABLE}({MOVIE_TITLE} TEXT, {MOVIE_ID} TEXT PRIMARY KEY)")
+=======
+    cur.execute(f"CREATE TABLE movie({MOVIE_TITLE}, {MOVIE_ID})")
+>>>>>>> 4634216 (wip)
     with open(SAVE_TITLES_FILE) as titles_file:
         _ = titles_file.readline()  # titles
         lines = titles_file.read().split("\n")
@@ -42,9 +46,13 @@ def create_movies_to_identifier_mapping(db_name: str):
                 splitted_line = line.split("\t")
                 name = splitted_line[MOVIE_TITLE_INDEX]
                 id = splitted_line[IDENTIFIER_INDEX]
+<<<<<<< HEAD
                 cur.execute(
                     f"INSERT INTO movie ({MOVIE_TITLE}, {MOVIE_ID}) VALUES (?, ?)",
                     (name, id),
                 )
+=======
+                cur.execute(f"INSERT INTO movie ({MOVIE_TITLE}, {MOVIE_ID}) VALUES (?, ?)", (name, id))
+>>>>>>> 4634216 (wip)
         con.commit()
     con.close()
