@@ -5,8 +5,7 @@ from generate_movie_db.generate_players_to_movies_mapping import (
     create_players_to_movies_mapping,
 )
 from os import remove
-from generate_movie_db.constants import (SAVE_TITLES_FILE,
-                                         SAVE_ACTORS_FILE, DB_NAME)
+from generate_movie_db.constants import SAVE_TITLES_FILE, SAVE_ACTORS_FILE, DB_NAME
 
 
 def main() -> None:
