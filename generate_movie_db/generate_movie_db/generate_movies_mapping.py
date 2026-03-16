@@ -40,6 +40,9 @@ def create_movies_to_identifier_mapping(db_name: str):
                 splitted_line = line.split("\t")
                 name = splitted_line[MOVIE_TITLE_INDEX]
                 id = splitted_line[IDENTIFIER_INDEX]
-                cur.execute(f"INSERT INTO movie ({MOVIE_TITLE}, {MOVIE_ID}) VALUES (?, ?)", (name, id))
+                cur.execute(
+                    f"INSERT INTO movie ({MOVIE_TITLE}, {MOVIE_ID}) VALUES (?, ?)",
+                    (name, id),
+                )
         con.commit()
     con.close()

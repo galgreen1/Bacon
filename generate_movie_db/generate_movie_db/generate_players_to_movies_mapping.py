@@ -1,7 +1,13 @@
 from sqlite3 import connect
 from gzip import decompress
 from urllib.request import urlopen
-from generate_movie_db.constants import SAVE_ACTORS_FILE, PLAYER_TO_MOVIE_TABLE, ACTOR_ID, ACTOR_MOVIES, ACTOR_NAME
+from generate_movie_db.constants import (
+    SAVE_ACTORS_FILE,
+    PLAYER_TO_MOVIE_TABLE,
+    ACTOR_ID,
+    ACTOR_MOVIES,
+    ACTOR_NAME,
+)
 
 
 ACTORS_URL = "https://datasets.imdbws.com/name.basics.tsv.gz"
@@ -34,7 +40,9 @@ def create_players_to_movies_mapping(db_name: str) -> None:
     read_imdb_players_names()
     con = connect(db_name)
     cur = con.cursor()
-    cur.execute(f"CREATE TABLE {PLAYER_TO_MOVIE_TABLE}({ACTOR_ID}, {ACTOR_NAME}, {ACTOR_MOVIES})")
+    cur.execute(
+        f"CREATE TABLE {PLAYER_TO_MOVIE_TABLE}({ACTOR_ID}, {ACTOR_NAME}, {ACTOR_MOVIES})"
+    )
     with open(SAVE_ACTORS_FILE) as actors_file:
         _ = actors_file.readline()  # titles
         lines = actors_file.read().split("\n")

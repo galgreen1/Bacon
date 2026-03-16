@@ -85,26 +85,34 @@ def compute_distance(source_actor: str, dst_actor: str) -> Union[int, float]:
     current_Time = time()
     if dst_actor == source_actor:
         return 0
+    uid_time = time()
     source_actor_id = get_actor_uid(source_actor)
     dst_actor_id = get_actor_uid(dst_actor)
+    uid_finish_time = time()
+    print('uid time:', uid_finish_time - uid_time)
     visited = []
     queue = deque([])
     queue.append((source_actor_id, 0))
     while queue:
         (actor, distance) = queue.popleft()
+        college_time = time()
         colleagues = get_colleagues(actor)
+        print('colleagues time', time() - college_time)
         for actor_colleague in colleagues:
+            loop_time = time()
             if actor_colleague == dst_actor_id:
                 finish_time = time()
-                print('time:', finish_time- current_Time)
+                print('time:', finish_time - current_Time)
                 return distance + 1
             if actor_colleague not in visited:
                 visited.append(actor_colleague)
                 queue.append((actor_colleague, distance + 1))
+                #print('loop time:', time() - loop_time)
     finish_time = time()
-    print('time:', finish_time- current_Time)
+    print('time:', finish_time - current_Time)
     return inf
 
+
 if __name__ == "__main__":
-    print(compute_distance('Kevin Bacon', 'Bronson Pinchot'))
+    print(compute_distance('Kevin Bacon', 'Paul Brickman'))
     
