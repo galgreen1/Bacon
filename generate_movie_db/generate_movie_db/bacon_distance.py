@@ -93,10 +93,8 @@ def compute_distance(source_actor: str, dst_actor: str) -> Union[int, float]:
             if actor_colleague not in visited:
                 visited.append(actor_colleague)
                 queue.append((actor_colleague, distance + 1))
-                #print('loop time:', time() - loop_time)
     return inf
 
 
 if __name__ == "__main__":
-    print(compute_distance('Kevin Bacon', 'Paul Brickman'))
-    
+    print(compute_distance("Kevin Bacon", "Paul Brickman"))
