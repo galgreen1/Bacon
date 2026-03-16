@@ -12,7 +12,12 @@ DB_NAME = "movie.db"
 
 
 def main() -> None:
+    """
+    Saving an sql db
+    A mapping between actors to movies they participates at
+    """
     create_players_to_movies_mapping(DB_NAME)
+    #  Only for saving the movies as asked
     create_movies_to_identifier_mapping(DB_NAME)
     #  Delete tmp files
     remove(SAVE_ACTORS_FILE)
