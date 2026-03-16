@@ -1,7 +1,7 @@
 import sqlite3
 from gzip import decompress
 from urllib.request import urlopen
-from generate_movie_db.constants import SAVE_TITLES_FILE
+from generate_movie_db.constants import SAVE_TITLES_FILE, MOVIE_TITLE, MOVIE_ID
 
 
 MOVIES_URL = "https://datasets.imdbws.com/title.basics.tsv.gz"
@@ -31,14 +31,15 @@ def create_movies_to_identifier_mapping(db_name: str):
     read_imdb_movies_names()
     con = sqlite3.connect(db_name)
     cur = con.cursor()
-    cur.execute("CREATE TABLE movie(title, id)")
+    cur.execute(f"CREATE TABLE movie({MOVIE_TITLE}, {MOVIE_ID})")
     with open(SAVE_TITLES_FILE) as titles_file:
         _ = titles_file.readline()  # titles
         lines = titles_file.read().split("\n")
         for line in lines:
-            splitted_line = line.split("\t")
-            name = splitted_line[MOVIE_TITLE_INDEX]
-            id = splitted_line[IDENTIFIER_INDEX]
-            cur.execute("INSERT INTO movie (title, id) VALUES (?, ?)", (name, id))
-            con.commit()
+            if line:
+                splitted_line = line.split("\t")
+                name = splitted_line[MOVIE_TITLE_INDEX]
+                id = splitted_line[IDENTIFIER_INDEX]
+                cur.execute(f"INSERT INTO movie ({MOVIE_TITLE}, {MOVIE_ID}) VALUES (?, ?)", (name, id))
+        con.commit()
     con.close()

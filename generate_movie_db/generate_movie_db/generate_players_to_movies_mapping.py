@@ -1,7 +1,7 @@
-import sqlite3
+from sqlite3 import connect
 from gzip import decompress
 from urllib.request import urlopen
-from generate_movie_db.constants import SAVE_ACTORS_FILE
+from generate_movie_db.constants import SAVE_ACTORS_FILE, PLAYER_TO_MOVIE_TABLE, ACTOR_ID, ACTOR_MOVIES, ACTOR_NAME
 
 
 ACTORS_URL = "https://datasets.imdbws.com/name.basics.tsv.gz"
@@ -32,20 +32,21 @@ def create_players_to_movies_mapping(db_name: str) -> None:
     Read all of the actors information from a text file.
     """
     read_imdb_players_names()
-    con = sqlite3.connect(db_name)
+    con = connect(db_name)
     cur = con.cursor()
-    cur.execute("CREATE TABLE actors(actor_id, actor_name, movies_id)")
+    cur.execute(f"CREATE TABLE {PLAYER_TO_MOVIE_TABLE}({ACTOR_ID}, {ACTOR_NAME}, {ACTOR_MOVIES})")
     with open(SAVE_ACTORS_FILE) as actors_file:
         _ = actors_file.readline()  # titles
         lines = actors_file.read().split("\n")
         for line in lines:
-            splitted_line = line.split("\t")
-            actor_id = splitted_line[ACTOR_ID_INDEX]
-            actor_name = splitted_line[ACTOR_NAME_INDEX]
-            movies_id = splitted_line[MOVIES_ID_INDEX]
-            cur.execute(
-                "INSERT INTO actors (actor_id, actor_name, movies_id) VALUES (?, ?, ?)",
-                (actor_id, actor_name, movies_id),
-            )
-            con.commit()
+            if line:
+                splitted_line = line.split("\t")
+                actor_id = splitted_line[ACTOR_ID_INDEX]
+                actor_name = splitted_line[ACTOR_NAME_INDEX]
+                movies_id = splitted_line[MOVIES_ID_INDEX]
+                cur.execute(
+                    f"INSERT INTO actors ({ACTOR_ID}, {ACTOR_NAME}, {ACTOR_MOVIES}) VALUES (?, ?, ?)",
+                    (actor_id, actor_name, movies_id),
+                )
+        con.commit()
     con.close()

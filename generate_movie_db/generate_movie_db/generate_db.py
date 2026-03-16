@@ -5,10 +5,8 @@ from generate_movie_db.generate_players_to_movies_mapping import (
     create_players_to_movies_mapping,
 )
 from os import remove
-from generate_movie_db.constants import SAVE_TITLES_FILE, SAVE_ACTORS_FILE
-
-
-DB_NAME = "movie.db"
+from generate_movie_db.constants import (SAVE_TITLES_FILE,
+                                         SAVE_ACTORS_FILE, DB_NAME)
 
 
 def main() -> None:
@@ -20,6 +18,7 @@ def main() -> None:
     #  Only for saving the movies as asked
     create_movies_to_identifier_mapping(DB_NAME)
     #  Delete tmp files
+    #  Assume the program get runned from inside its directory
     remove(SAVE_ACTORS_FILE)
     remove(SAVE_TITLES_FILE)
 
