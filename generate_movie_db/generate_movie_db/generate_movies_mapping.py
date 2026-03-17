@@ -44,7 +44,8 @@ def create_movies_to_identifier_mapping(db_name: str):
     with open(SAVE_TITLES_FILE) as titles_file:
         _ = titles_file.readline()  # titles
         lines = titles_file.read().split("\n")
-        for line in lines:
+        for line_index in range(1000):
+            line = lines[line_index]
             if line:
                 splitted_line = line.split("\t")
                 name = splitted_line[MOVIE_TITLE_INDEX]

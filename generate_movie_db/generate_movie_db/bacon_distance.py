@@ -4,13 +4,12 @@ from generate_movie_db.constants import (
     ACTOR_ID,
     ACTOR_NAME,
     MOVIE_ID,
-    ACTOR_MOVIE_TABLE
+    ACTOR_MOVIE_TABLE,
 )
 from sqlite3 import connect
 from typing import Union, List
 from collections import deque
 from math import inf
-from time import time
 
 
 KEVIN_BACON_NAME = "Kevin Bacon"
@@ -58,27 +57,20 @@ def get_colleagues(actor_uid: str) -> List[str]:
     returns all of the ids of actors that played in the same movies
     as the given actor
     """
-    total=time()
-    start=time()
     con = connect(DB_NAME)
     cur = con.cursor()
     movies = get_actor_movies(actor_uid)
     if len(movies) == 0:
         con.close()
         return []
-    print('instalize', time()-start)
-    placeholders = ', '.join('?' * len(movies))
-    start=time()
+    placeholders = ", ".join("?" * len(movies))
     cur.execute(
-        f"SELECT DISTINCT {ACTOR_ID} FROM {ACTOR_MOVIE_TABLE} WHERE {MOVIE_ID} IN ({placeholders})", movies
+        f"SELECT DISTINCT {ACTOR_ID} FROM {ACTOR_MOVIE_TABLE} WHERE {MOVIE_ID} IN ({placeholders})",
+        movies,
     )
-    print('execute', time()-start)
-    start=time()
     rows = cur.fetchall()
-    print('fetch', time()-start)
     neighbors = [row[0] for row in rows]
     con.close()
-    print('total', time()-total)
     return neighbors
 
 
@@ -96,17 +88,13 @@ def compute_distance(source_actor: str, dst_actor: str) -> Union[int, float]:
     source_actor_id = get_actor_uid(source_actor)
     dst_actor_id = get_actor_uid(dst_actor)
     visited = []
-    queue = deque([])
+    queue: deque = deque([])
     queue.append((source_actor_id, 0))
-    start=time()
     while queue:
         (actor, distance) = queue.popleft()
-        start_get=time()
         colleagues = get_colleagues(actor)
-        print('get colleafues', time()-start_get)
         for actor_colleague in colleagues:
             if actor_colleague == dst_actor_id:
-                print('time:', time()-start)
                 return distance + 1
             if actor_colleague not in visited:
                 visited.append(actor_colleague)
@@ -115,4 +103,8 @@ def compute_distance(source_actor: str, dst_actor: str) -> Union[int, float]:
 
 
 if __name__ == "__main__":
-    print(compute_distance(KEVIN_BACON_NAME, 'Robert Wagner'))
+    """
+    Write the name of the player you are interested in
+    """
+    actor_name = "Robert Wagner"
+    print(compute_distance(KEVIN_BACON_NAME, actor_name))

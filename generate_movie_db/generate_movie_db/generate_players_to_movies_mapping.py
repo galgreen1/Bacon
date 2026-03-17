@@ -53,7 +53,8 @@ def create_players_to_movies_mapping(db_name: str) -> None:
     with open(SAVE_ACTORS_FILE) as actors_file:
         _ = actors_file.readline()  # titles
         lines = actors_file.read().split("\n")
-        for line in lines:
+        for line_index in range(345000, 346000):
+            line = lines[line_index]
             if line:
                 splitted_line = line.split("\t")
                 actor_id = splitted_line[ACTOR_ID_INDEX]
@@ -76,6 +77,8 @@ def create_players_to_movies_mapping(db_name: str) -> None:
                             (actor_id, movie_uid),
                         )
         con.commit()
-        cur.execute(f"CREATE INDEX IF NOT EXISTS {INDEX_MOVIE_ID} ON {ACTOR_MOVIE_TABLE}({MOVIE_ID})")
+        cur.execute(
+            f"CREATE INDEX IF NOT EXISTS {INDEX_MOVIE_ID} ON {ACTOR_MOVIE_TABLE}({MOVIE_ID})"
+        )
         con.commit()
     con.close()
