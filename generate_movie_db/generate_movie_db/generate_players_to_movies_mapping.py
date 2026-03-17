@@ -5,10 +5,11 @@ from generate_movie_db.constants import (
     SAVE_ACTORS_FILE,
     ACTOR_TABLE,
     ACTOR_ID,
+    ACTOR_MOVIES,
     ACTOR_NAME,
     ACTOR_MOVIE_TABLE,
     MOVIE_ID,
-    INDEX_MOVIE_ID,
+    MOVIES_TABLE,
 )
 
 
@@ -42,7 +43,7 @@ def create_players_to_movies_mapping(db_name: str) -> None:
     read_imdb_players_names()
     con = connect(db_name)
     #  For foreign keys
-    con.execute("PRAGMA foreign_keys = ON;")
+    con.execute('PRAGMA foreign_keys = ON;')
     cur = con.cursor()
     cur.execute(
         f"CREATE TABLE {ACTOR_TABLE}({ACTOR_ID} TEXT PRIMARY KEY, {ACTOR_NAME} TEXT)"
@@ -53,8 +54,7 @@ def create_players_to_movies_mapping(db_name: str) -> None:
     with open(SAVE_ACTORS_FILE) as actors_file:
         _ = actors_file.readline()  # titles
         lines = actors_file.read().split("\n")
-        for line_index in range(345000, 346000):
-            line = lines[line_index]
+        for line in lines:
             if line:
                 splitted_line = line.split("\t")
                 actor_id = splitted_line[ACTOR_ID_INDEX]
@@ -70,15 +70,11 @@ def create_players_to_movies_mapping(db_name: str) -> None:
                 splitted_line = line.split("\t")
                 actor_id = splitted_line[ACTOR_ID_INDEX]
                 movies_id = splitted_line[MOVIES_ID_INDEX]
-                if movies_id.strip() != "\\N":
-                    for movie_uid in movies_id.split(","):
+                if movies_id.strip() != '\\N':
+                    for movie_uid in movies_id.split(','):
                         cur.execute(
                             f"INSERT INTO {ACTOR_MOVIE_TABLE} ({ACTOR_ID}, {MOVIE_ID}) VALUES (?, ?)",
                             (actor_id, movie_uid),
                         )
-        con.commit()
-        cur.execute(
-            f"CREATE INDEX IF NOT EXISTS {INDEX_MOVIE_ID} ON {ACTOR_MOVIE_TABLE}({MOVIE_ID})"
-        )
         con.commit()
     con.close()
