@@ -17,8 +17,8 @@ def main() -> None:
     create_players_to_movies_mapping(DB_NAME)
     #  Delete tmp files
     #  Assume the program get runned from inside its directory
-    # remove(SAVE_ACTORS_FILE)
-    # remove(SAVE_TITLES_FILE)
+    remove(SAVE_ACTORS_FILE)
+    remove(SAVE_TITLES_FILE)
 
 
 if __name__ == "__main__":
