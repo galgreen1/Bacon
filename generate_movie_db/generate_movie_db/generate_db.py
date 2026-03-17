@@ -13,9 +13,8 @@ def main() -> None:
     Saving an sql db
     A mapping between actors to movies they participates at
     """
-    create_players_to_movies_mapping(DB_NAME)
-    #  Only for saving the movies as asked
     create_movies_to_identifier_mapping(DB_NAME)
+    create_players_to_movies_mapping(DB_NAME)
     #  Delete tmp files
     #  Assume the program get runned from inside its directory
     remove(SAVE_ACTORS_FILE)

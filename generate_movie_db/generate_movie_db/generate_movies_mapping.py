@@ -1,7 +1,7 @@
 import sqlite3
 from gzip import decompress
 from urllib.request import urlopen
-from generate_movie_db.constants import SAVE_TITLES_FILE, MOVIE_TITLE, MOVIE_ID
+from generate_movie_db.constants import SAVE_TITLES_FILE, MOVIE_TITLE, MOVIE_ID, MOVIES_TABLE
 
 
 MOVIES_URL = "https://datasets.imdbws.com/title.basics.tsv.gz"
@@ -30,8 +30,10 @@ def create_movies_to_identifier_mapping(db_name: str):
     """
     read_imdb_movies_names()
     con = sqlite3.connect(db_name)
+    #  For forgien keys
+    con.execute('PRAGMA foreign_keys = ON;')
     cur = con.cursor()
-    cur.execute(f"CREATE TABLE movie({MOVIE_TITLE}, {MOVIE_ID})")
+    cur.execute(f"CREATE TABLE {MOVIES_TABLE}({MOVIE_TITLE} TEXT, {MOVIE_ID} TEXT PRIMARY KEY)")
     with open(SAVE_TITLES_FILE) as titles_file:
         _ = titles_file.readline()  # titles
         lines = titles_file.read().split("\n")
