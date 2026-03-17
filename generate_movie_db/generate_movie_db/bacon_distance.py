@@ -16,7 +16,6 @@ KEVIN_BACON_NAME = "Kevin Bacon"
 ACTOR_ID_INDEX = 0
 ACTOR_MOVIES_INDEX = 2
 MOVIE_ID_INDEX = 1
-BATCH_SIZE = 10000
 
 
 def get_actor_uid(actor_name: str) -> str:

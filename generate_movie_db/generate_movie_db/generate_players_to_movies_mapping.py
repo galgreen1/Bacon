@@ -43,7 +43,7 @@ def create_players_to_movies_mapping(db_name: str) -> None:
     read_imdb_players_names()
     con = connect(db_name)
     #  For foreign keys
-    con.execute('PRAGMA foreign_keys = ON;')
+    con.execute("PRAGMA foreign_keys = ON;")
     cur = con.cursor()
     cur.execute(
         f"CREATE TABLE {ACTOR_TABLE}({ACTOR_ID} TEXT PRIMARY KEY, {ACTOR_NAME} TEXT)"
@@ -70,8 +70,8 @@ def create_players_to_movies_mapping(db_name: str) -> None:
                 splitted_line = line.split("\t")
                 actor_id = splitted_line[ACTOR_ID_INDEX]
                 movies_id = splitted_line[MOVIES_ID_INDEX]
-                if movies_id.strip() != '\\N':
-                    for movie_uid in movies_id.split(','):
+                if movies_id.strip() != "\\N":
+                    for movie_uid in movies_id.split(","):
                         cur.execute(
                             f"INSERT INTO {ACTOR_MOVIE_TABLE} ({ACTOR_ID}, {MOVIE_ID}) VALUES (?, ?)",
                             (actor_id, movie_uid),
