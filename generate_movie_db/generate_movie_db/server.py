@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route("/<actor_name>", methods=['GET'])
+@app.route("/<actor_name>", methods=["GET"])
 def bacon_distance(actor_name):
     try:
         print(actor_name)
@@ -17,6 +17,6 @@ def bacon_distance(actor_name):
     return str(distance)
 
 
-@app.route("/", methods=['GET'])
+@app.route("/", methods=["GET"])
 def hi():
     return "invalid, please enter an actor name"
