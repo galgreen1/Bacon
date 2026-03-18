@@ -6,6 +6,7 @@ from generate_movie_db.constants import (
     MOVIE_ID,
     ACTOR_MOVIE_TABLE,
 )
+from generate_movie_db.exceptions import ActorNotFound
 from sqlite3 import connect
 from typing import Union, List
 from collections import deque
@@ -30,7 +31,7 @@ def get_actor_uid(actor_name: str) -> str:
     row = cur.fetchone()
     con.close()
     if not row:
-        raise Exception(f"{actor_name} actor not found in the db")
+        raise ActorNotFound(actor_name)
     return row[ACTOR_ID_INDEX]
 
 
@@ -46,7 +47,7 @@ def get_actor_movies(actor_uid: str) -> List[str]:
     rows = cur.fetchall()
     con.close()
     if not rows:
-        raise Exception(f"actor {actor_uid} not found in the db")
+        raise ActorNotFound(actor_uid)
     movies = [row[0] for row in rows]
     return movies
 
