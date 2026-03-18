@@ -101,9 +101,8 @@ def compute_distance(source_actor: str, dst_actor: str) -> Union[int, float]:
     return inf
 
 
-if __name__ == "__main__":
+def compute_bacon_distance(actor_name: str) -> Union[int, float]:
     """
-    Write the name of the player you are interested in
-    #"""
-    actor_name = "Kyra Sedgwick"
-    print(compute_distance(KEVIN_BACON_NAME, actor_name))
+    Compute the distance from kevin bacon
+    """
+    return compute_distance(KEVIN_BACON_NAME, actor_name)
