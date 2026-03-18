@@ -7,4 +7,4 @@ class ActorNotFound(Exception):
         super().__init__(ACTOR_NOT_FOUND_TEXT)
     
     def __str__(self):
-        return self.actor_name + ACTOR_NOT_FOUND_TEXT
+        return " error! " + self.actor_name + " " + ACTOR_NOT_FOUND_TEXT
