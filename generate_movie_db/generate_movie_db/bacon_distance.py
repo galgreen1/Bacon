@@ -104,6 +104,6 @@ def compute_distance(source_actor: str, dst_actor: str) -> Union[int, float]:
 if __name__ == "__main__":
     """
     Write the name of the player you are interested in
-    """
-    actor_name = ""
+    #"""
+    actor_name = "Kyra Sedgwick"
     print(compute_distance(KEVIN_BACON_NAME, actor_name))
